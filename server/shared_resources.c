@@ -8,7 +8,7 @@
 
 #include "shared_resources.h"
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 typedef unsigned char mshArrayElem;
 #define MSH_ARRAY_SIZE 32
 struct __mshLinkedArrays{

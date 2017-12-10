@@ -8,7 +8,7 @@
 
 #include "semipipe.h"
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 void mshOpenSemiPipe(struct mshSemiPipe * const p,const size_t size){
     p->size=size;
     p->available=0;

@@ -7,8 +7,8 @@ LD=gcc
 #############
 #flags
 #############
-CC_FLAGS=-c -I $(SRCDIR) -I common 
-LD_FLAGS=-I $(SRCDIR) -I common 
+CC_FLAGS=-c -I $(SRCDIR) -I common -pthread
+LD_FLAGS=-I $(SRCDIR) -I common -pthread
 #############
 #directories
 #############

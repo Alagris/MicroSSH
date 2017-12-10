@@ -29,8 +29,14 @@ const size_t mshPow(const size_t base, size_t exponent){
 //IMPORTANT: doesn't work on 32 bit machines!
 //TODO: add 32 bit machine support
 
-asm(".global _mshIsCarryFlagSet\n"
+asm(
+#ifdef __APPLE__
+    ".global _mshIsCarryFlagSet\n"
     "_mshIsCarryFlagSet:\n"
+#elif defined(__linux__)
+    ".global mshIsCarryFlagSet\n"
+    "mshIsCarryFlagSet:\n"
+#endif
     "jnc mshIsCarryFlagSet_false\n"
     "mshIsCarryFlagSet_true:\n"
     "movl $1,%eax\n"

@@ -7,7 +7,7 @@
 //
 
 #include "bitset.h"
-#include <strings.h>
+#include <string.h>
 #include <stdlib.h>
 static const size_t MSH_BITSET_ELEM_SIZE=sizeof(mshBitsetElem)*8;
 

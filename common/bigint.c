@@ -10,7 +10,7 @@
 #include "bigint.h"
 #include "math.h"
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 void __mshRelocateBigUInt(struct mshBigUInt *const num,const size_t newLen)
 {
     if(newLen<=num->len)return;
