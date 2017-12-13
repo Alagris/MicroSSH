@@ -27,6 +27,7 @@ const _Bool authorize(const struct mshPrivateKey *const priv,struct mshConn *con
     mshReadFromConn(c);
     const enum mshProtocol reply=mshGetProtocolConn(c, 0);
     mshResetPipe(&c->pipe);
+//    printf("Reply=%d / %d",reply,MSH_PROTOCOL_AUTH_ACCEPTED);
     return reply==MSH_PROTOCOL_AUTH_ACCEPTED;
     
 }
@@ -44,12 +45,53 @@ int main(int argc, char *argv[]){
     const int port=argc==3?atoi(argv[2]):MSH_DEFAULT_PORT;
     const char *const host=argc>=2?argv[1]:MSH_DEFAULT_HOST;
     printf("Connecting to %s:%d\n",host,port);
+    
+    
+    ////////
+//    int sock;
+//    struct sockaddr_in server;
+//    char message[1000] , server_reply[2000];
+//
+//    //Create socket
+//    sock = socket(AF_INET , SOCK_STREAM , 0);
+//    if (sock == -1)
+//    {
+//        printf("Could not create socket");
+//    }
+//    puts("Socket created");
+//
+//    server.sin_addr.s_addr = inet_addr("127.0.0.1");
+//    server.sin_family = AF_INET;
+//    server.sin_port = htons( 8888 );
+//
+//    //Connect to remote server
+//    if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
+//    {
+//        perror("connect failed. Error");
+//        return 1;
+//    }
+    ///////
+    
     struct mshClient client=mshDefaultClient;
-    mshConfigureClient(&client, port, host);
-    mshOpenClient(&client);
+    switch(mshConfigureClient(&client, port, host)){
+        case MSH_HOST_RESOLVE_FAIL:
+            perror("Unresolved host name!");
+            return 0;
+        case MSH_SUCCESS:
+            break;
+        default:
+            perror("Error while setting up clinet!");
+            return 0;
+    }
+    
+    if(mshOpenClient(&client)!=MSH_SUCCESS){
+            perror("Could not open socket!");
+            return 0;
+    }
+    
     struct mshConn conn=mshDefaultConn;
     if(mshConnectClient(&client,&conn)!=MSH_SUCCESS){
-        fprintf(stderr, "Connection problems!\n");
+        perror( "Connection problems!");
         return 0;
     }
     

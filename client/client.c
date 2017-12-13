@@ -18,13 +18,11 @@ const enum mshError mshConfigureClient(struct mshClient * const client,
     struct hostent *const server = gethostbyname(host);
     if (server == NULL)
         return MSH_HOST_RESOLVE_FAIL;
-    
-    memset((char *) &client->serv_addr, sizeof(client->serv_addr),0);
+    memset(&client->serv_addr, 0,sizeof(client->serv_addr));
+    client->serv_addr.sin_addr = *((struct in_addr *)server->h_addr);
     client->serv_addr.sin_family = AF_INET;
-    memcpy((char *)server->h_addr,
-           (char *)&client->serv_addr.sin_addr.s_addr,
-           server->h_length);
     client->serv_addr.sin_port = htons(port);
+    
     client->port=port;
     client->sockfd=-1;
     return MSH_SUCCESS;
@@ -43,7 +41,7 @@ const enum mshError mshConnectClient(const struct mshClient* const client,
 {
     if (connect(client->sockfd,
                 (const struct sockaddr *)&client->serv_addr,
-                sizeof(client->serv_addr)) < 0)
+                sizeof(struct sockaddr)) < 0)
         return MSH_SERV_CONNECTION_FAIL;
     c->sockfd=client->sockfd;
     mshOpenPipe(&c->pipe, MSH_DEFAULT_BUFFER_LEN);

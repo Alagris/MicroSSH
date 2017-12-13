@@ -49,5 +49,5 @@ $(OBJDIR)/%.$(C_OBJ_SFX): %.$(C_SRC_SFX) $(OBJDIR)
 	mkdir -p `dirname $@ `	&& \
 	$(CC) $(CC_FLAGS)  $< -o $@
 
-# $(OBJDIR):
-# 	mkdir -p $(OBJDIR)
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
